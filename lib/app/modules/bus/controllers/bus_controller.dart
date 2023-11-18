@@ -1,20 +1,10 @@
 import 'package:get/get.dart';
 
 class BusController extends GetxController {
-  //TODO: Implement HomeController
+  String stationFrom = "";
 
-  final count = 0.obs;
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
-
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
-
-  // @override
-  // void onClose() {}
-  // void increment() => count.value++;
+  void setStationForm(String from) {
+    stationFrom = from;
+    update();
+  }
 }

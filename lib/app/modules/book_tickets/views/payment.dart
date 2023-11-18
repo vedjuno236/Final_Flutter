@@ -518,7 +518,7 @@ class _PaymentState extends State<Payment> {
                                   MaterialBanner(
                                     padding: const EdgeInsets.all(20),
                                     content: Text('ການຊໍາລະສໍາເລັດ'),
-                                    leading: Icon(
+                                    leading: const Icon(
                                         Icons.notifications_active_outlined),
                                     elevation: 5,
                                     backgroundColor: Colors.white12,
@@ -546,7 +546,7 @@ class _PaymentState extends State<Payment> {
                                     children: [
                                       Image.asset('assets/logo/BCL_ONE.png',
                                           width: 50, height: 50),
-                                      SizedBox(
+                                      const SizedBox(
                                           width:
                                               10), // Make sure the image path is correct
                                       const Text(

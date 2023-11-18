@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         } else {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
+
             title: "Application",
             initialRoute: Routes.LOGIN,
             getPages: AppPages.routes,
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
 
               // Add other supported locales here
             ],
+            // debugShowCheckedModeBanner: false,
           );
         }
       },
