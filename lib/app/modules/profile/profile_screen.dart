@@ -1,12 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_final/app/modules/book_tickets/views/add_a_contact.dart';
 import 'package:flutter_final/app/modules/home/views/home_view.dart';
 import 'package:flutter_final/app/modules/mytickets/views/mytickests.dart';
 import 'package:flutter_final/app/modules/profile/update_profile.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  File? imageFile;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,14 +40,60 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               width: 120,
               height: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset("assets/images/profile.png"),
+              child: Stack(
+                children: [
+              
+                  if (imageFile != null)
+                    Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        image: DecorationImage(
+                            image: FileImage(imageFile!), fit: BoxFit.cover),
+                        
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    )
+                  else
+                    Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage('assets/images/profile.png'),
+                          fit: BoxFit.cover,
+                        ),
+                        color: Colors.white,
+                   
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+
+                  GestureDetector(
+                    onTap: () {
+                      getImage(source: ImageSource.camera);
+                    },
+                    child: Positioned(
+                      bottom: 50,
+                      right: 50,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(width: 5, color: Colors.white),
+                          color: Colors.blue,
+                        ),
+                        child: Icon(Icons.edit, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 10),
-          const  Text("Vedjuno", style: TextStyle(fontSize: 15)),
-           const Text("Vedjuno@gamil.com", style: TextStyle(fontSize: 10)),
+
+            const SizedBox(height: 10),
+            const Text("Vedjuno", style: TextStyle(fontSize: 15)),
+            const Text("Vedjuno@gamil.com", style: TextStyle(fontSize: 10)),
             const SizedBox(height: 20),
             SizedBox(
               width: 200,
@@ -48,7 +104,7 @@ class ProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.amber,
                     side: BorderSide.none,
                     shape: const StadiumBorder()),
-                child:const Text(
+                child: const Text(
                   "ແກ້ໄຂຂໍ້ມູນ",
                   style: TextStyle(fontSize: 15),
                 ),
@@ -69,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: Icon(Icons.settings_rounded, size: 40),
                   ),
-                  title:const Text(
+                  title: const Text(
                     "ຕັ້ງຄ່າ",
                     style: TextStyle(fontSize: 18),
                   ),
@@ -84,7 +140,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
 
-              const  SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 GestureDetector(
                   onTap: () {
@@ -103,7 +159,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       child: Icon(CupertinoIcons.person_alt_circle, size: 40),
                     ),
-                    title:const Text(
+                    title: const Text(
                       "ຢືນຢັນຂໍ້ມູນຈີງ",
                       style: TextStyle(fontSize: 18),
                     ),
@@ -131,7 +187,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: Icon(CupertinoIcons.person_3_fill, size: 40),
                   ),
-                  title:const Text(
+                  title: const Text(
                     "ກ່ຽວກັບພວກເຮົາ",
                     style: TextStyle(fontSize: 18),
                   ),
@@ -145,7 +201,7 @@ class ProfileScreen extends StatelessWidget {
                     child: const Icon(CupertinoIcons.arrow_right, size: 20),
                   ),
                 ),
-              const  SizedBox(height: 15),
+                const SizedBox(height: 15),
                 ListTile(
                   leading: Container(
                     width: 40,
@@ -154,13 +210,13 @@ class ProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100),
                       color: Colors.white.withOpacity(0.1),
                     ),
-                    child:const Icon(
+                    child: const Icon(
                       CupertinoIcons.lock_rotation,
                       size: 40,
                       color: Colors.blue,
                     ),
                   ),
-                  title:const Text(
+                  title: const Text(
                     "ອອກຈາກລະບົບ",
                     style: TextStyle(fontSize: 18),
                   ),
@@ -171,7 +227,7 @@ class ProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100),
                       color: Colors.grey.withOpacity(0.1),
                     ),
-                    child:const Icon(
+                    child: const Icon(
                       CupertinoIcons.arrow_right,
                       size: 20,
                     ),
@@ -204,7 +260,7 @@ class ProfileScreen extends StatelessWidget {
             label: "ບັນຊີຂອງຂ້ອຍ",
           ),
         ],
-         onTap: (int index) {
+        onTap: (int index) {
           if (index == 0) {
             Navigator.push(
               context,
@@ -224,5 +280,19 @@ class ProfileScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void getImage({required ImageSource source}) async {
+    final file = await ImagePicker().pickImage(
+        source: source,
+        maxWidth: 300,
+        maxHeight: 300,
+        imageQuality: 70 //0 - 100
+        );
+    if (file?.path != null) {
+      setState(() {
+        imageFile = File(file!.path);
+      });
+    }
   }
 }

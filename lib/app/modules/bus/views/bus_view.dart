@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_final/app/modules/bus/controllers/bus_controller.dart';
 import 'package:flutter_final/app/modules/home/views/home_view.dart';
 import 'package:flutter_final/app/modules/mytickets/views/mytickests.dart';
 import 'package:flutter_final/app/modules/profile/profile_screen.dart';
-// import 'package:flutter_final/app/modules/search_form/views/search_form.dart';
 import 'package:flutter_final/app/modules/search_tickets/views/search_tickets.dart';
-// import 'package:flutter_final/app/modules/search_to/views/search_to.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -208,45 +205,48 @@ class _BusViewState extends State<BusView> {
                                                             ),
                                                             Column(
                                                               children: [
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    Get.find<
-                                                                            BusController>()
-                                                                        .setStationForm(
-                                                                            "name of station");
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
+                                                                Container(
                                                                   child:
-                                                                      Container(
-                                                                    child:
-                                                                        StreamBuilder(
-                                                                      stream: FirebaseFirestore
-                                                                          .instance
-                                                                          .collection(
-                                                                              'Station')
-                                                                          .snapshots(),
-                                                                      builder: (context,
-                                                                          AsyncSnapshot<QuerySnapshot>
-                                                                              snapshot) {
-                                                                        if (snapshot
-                                                                            .hasData) {
-                                                                          return GridView
-                                                                              .builder(
-                                                                            gridDelegate:
-                                                                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                                                              maxCrossAxisExtent: 120,
-                                                                              childAspectRatio: 3 / 2,
-                                                                              crossAxisSpacing: 5,
-                                                                              mainAxisSpacing: 3,
-                                                                            ),
-                                                                            shrinkWrap:
-                                                                                true,
-                                                                            itemCount:
-                                                                                snapshot.data!.docs.length,
-                                                                            itemBuilder: (context, index) =>
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.all(5),
+                                                                      StreamBuilder(
+                                                                    stream: FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            'Station')
+                                                                        .snapshots(),
+                                                                    builder: (context,
+                                                                        AsyncSnapshot<QuerySnapshot>
+                                                                            snapshot) {
+                                                                      if (snapshot
+                                                                          .hasData) {
+                                                                        return GridView
+                                                                            .builder(
+                                                                          gridDelegate:
+                                                                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                                            maxCrossAxisExtent:
+                                                                                120,
+                                                                            childAspectRatio:
+                                                                                3 / 2,
+                                                                            crossAxisSpacing:
+                                                                                5,
+                                                                            mainAxisSpacing:
+                                                                                3,
+                                                                          ),
+                                                                          shrinkWrap:
+                                                                              true,
+                                                                          itemCount: snapshot
+                                                                              .data!
+                                                                              .docs
+                                                                              .length,
+                                                                          itemBuilder: (context, index) =>
+                                                                              Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(5),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                              onTap: () {
+                                                                                Get.back();
+                                                                                Get.find<BusController>().setStationForm(snapshot.data!.docs[index]['name']);
+                                                                              },
                                                                               child: Container(
                                                                                 decoration: BoxDecoration(
                                                                                   color: Colors.grey[200],
@@ -260,12 +260,12 @@ class _BusViewState extends State<BusView> {
                                                                                 ),
                                                                               ),
                                                                             ),
-                                                                          );
-                                                                        } else {
-                                                                          return Container(); // Placeholder widget when data is not available
-                                                                        }
-                                                                      },
-                                                                    ),
+                                                                          ),
+                                                                        );
+                                                                      } else {
+                                                                        return Container();
+                                                                      }
+                                                                    },
                                                                   ),
                                                                 ),
                                                               ],
@@ -289,12 +289,18 @@ class _BusViewState extends State<BusView> {
                                                       ),
                                                     ),
                                                     WidgetSpan(
-                                                      child: GetBuilder(
-                                                          init:
-                                                              DataController(),
-                                                          builder: (_) {
+                                                      child: GetBuilder<
+                                                              BusController>(
+                                                          init: BusController(),
+                                                          builder:
+                                                              (controller) {
                                                             return Text(
-                                                                "Station : ${_.stationFrom}");
+                                                              " ${controller.stationFrom}",
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          20),
+                                                            );
                                                           }),
                                                     ),
                                                   ],
@@ -347,53 +353,52 @@ class _BusViewState extends State<BusView> {
                                                         ),
                                                         Column(
                                                           children: [
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                // _busController
-                                                                // increment();
-
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Container(
-                                                                child:
-                                                                    StreamBuilder(
-                                                                  stream: FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          'Station')
-                                                                      .snapshots(),
-                                                                  builder: (context,
-                                                                      AsyncSnapshot<
-                                                                              QuerySnapshot>
-                                                                          snapshot) {
-                                                                    if (snapshot
-                                                                        .hasData) {
-                                                                      return GridView
-                                                                          .builder(
-                                                                        gridDelegate:
-                                                                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                                                                          maxCrossAxisExtent:
-                                                                              120,
-                                                                          childAspectRatio:
-                                                                              3 / 2,
-                                                                          crossAxisSpacing:
-                                                                              5,
-                                                                          mainAxisSpacing:
-                                                                              3,
-                                                                        ),
-                                                                        shrinkWrap:
-                                                                            true,
-                                                                        itemCount: snapshot
-                                                                            .data!
-                                                                            .docs
-                                                                            .length,
-                                                                        itemBuilder:
-                                                                            (context, index) =>
-                                                                                Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .all(
-                                                                              5),
+                                                            Container(
+                                                              child:
+                                                                  StreamBuilder(
+                                                                stream: FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'Station')
+                                                                    .snapshots(),
+                                                                builder: (context,
+                                                                    AsyncSnapshot<
+                                                                            QuerySnapshot>
+                                                                        snapshot) {
+                                                                  if (snapshot
+                                                                      .hasData) {
+                                                                    return GridView
+                                                                        .builder(
+                                                                      gridDelegate:
+                                                                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                                        maxCrossAxisExtent:
+                                                                            120,
+                                                                        childAspectRatio:
+                                                                            3 / 2,
+                                                                        crossAxisSpacing:
+                                                                            5,
+                                                                        mainAxisSpacing:
+                                                                            3,
+                                                                      ),
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      itemCount: snapshot
+                                                                          .data!
+                                                                          .docs
+                                                                          .length,
+                                                                      itemBuilder:
+                                                                          (context, index) =>
+                                                                              Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            5),
+                                                                        child:
+                                                                            GestureDetector(
+                                                                          onTap:
+                                                                              () {
+                                                                            Get.back();
+                                                                            Get.find<BusController>().setStation(snapshot.data!.docs[index]['name']);
+                                                                          },
                                                                           child:
                                                                               Container(
                                                                             decoration:
@@ -410,12 +415,12 @@ class _BusViewState extends State<BusView> {
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      );
-                                                                    } else {
-                                                                      return Container(); // Placeholder widget when data is not available
-                                                                    }
-                                                                  },
-                                                                ),
+                                                                      ),
+                                                                    );
+                                                                  } else {
+                                                                    return Container();
+                                                                  }
+                                                                },
                                                               ),
                                                             ),
                                                           ],
@@ -431,22 +436,32 @@ class _BusViewState extends State<BusView> {
                                             children: <Widget>[
                                               RichText(
                                                 text: TextSpan(
-                                                    children: <TextSpan>[
-                                                      const TextSpan(
-                                                        text: "ຮອດ \n",
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xFFFb7b7c5),
-                                                            fontSize: 14),
+                                                  children: [
+                                                    const TextSpan(
+                                                      text: "ຮອດ \n",
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFFFb7b7c5),
+                                                        fontSize: 14,
                                                       ),
-                                                      TextSpan(
-                                                        text: "$name",
-                                                        style: const TextStyle(
-                                                            fontSize: 20,
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                    ]),
+                                                    ),
+                                                    WidgetSpan(
+                                                      child: GetBuilder<
+                                                              BusController>(
+                                                          init: BusController(),
+                                                          builder:
+                                                              (controller) {
+                                                            return Text(
+                                                              " ${controller.station}",
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          20),
+                                                            );
+                                                          }),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -532,7 +547,8 @@ class _BusViewState extends State<BusView> {
                                         children: [
                                           Text(
                                             "${formatter.format(selectedDate)}",
-                                            style: TextStyle(fontSize: 20),
+                                            style:
+                                                const TextStyle(fontSize: 20),
                                           ),
                                           const Icon(
                                             Icons.calendar_month,
@@ -543,10 +559,9 @@ class _BusViewState extends State<BusView> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(),
+                                const SizedBox(),
                                 GestureDetector(
                                   onTap: () {
-                                    // Navigate to the "Home" screen when tapped
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
